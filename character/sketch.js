@@ -13,8 +13,8 @@ function draw() {
     
     var birdX = 250;
     var birdY = 150; //150
-    var birdXY2 = 183; //183
-    var birdX3 = 83; //83
+    var birdXY2 = birdY + 33; //183
+    var birdX3 = birdXY2 - 100; //83
     var birdY3 = 231; //231
     var bHeadWidth = 50; //50
     var bHeadHeight = 35; //35
