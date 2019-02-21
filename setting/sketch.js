@@ -12,6 +12,25 @@ var currentSetting = "day";
 var bgColor = dayColor;
 var darkness = 'rgba(0, 0, 0, 0)';
 
+//bird variables
+var birdX = 425; //250
+var birdY = 120; //150
+var birdX2 = birdX - 70; //180
+var birdY2 = birdY + 33; //183
+var birdX3 = birdX2 - 100; //80
+var birdY3 = birdY2 + 50; //233
+var bHeadWidth = 50; //50
+var bHeadHeight = bHeadWidth - 15; //35
+var eyeSize = 6;
+var bFootSize = 30;
+
+// squirrel variables
+var squirrelX = 750;
+var squirrelY = 300; //135
+var earSize = 20; //20
+var squirrelWidth = 65;
+var squirrelHeight = 130;
+
 function setup() {
     createCanvas(900, 647);
     img = loadImage('background.png');
@@ -36,17 +55,6 @@ function draw() {
 }
 
 function bird() {
-    //variables
-    var birdX = 425; //250
-    var birdY = 120; //150
-    var birdX2 = birdX - 70; //180
-    var birdY2 = birdY + 33; //183
-    var birdX3 = birdX2 - 100; //80
-    var birdY3 = birdY2 + 50; //233
-    var bHeadWidth = 50; //50
-    var bHeadHeight = bHeadWidth - 15; //35
-    var eyeSize = 6;
-    var bFootSize = 30;
 
     fill('#868686'); //gray
     strokeWeight(1);
@@ -70,13 +78,6 @@ function bird() {
 }
 
 function squirrel() {
-
-    // variables
-    var squirrelX = 750;
-    var squirrelY = 300; //135
-    var earSize = 20; //20
-    var squirrelWidth = 65;
-    var squirrelHeight = 130;
 
     fill('#874934'); // dark brown
     rect(squirrelX, squirrelY, squirrelWidth - 20, squirrelHeight, 15); //squirrel tail
