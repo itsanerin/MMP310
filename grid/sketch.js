@@ -9,9 +9,9 @@ function setup() {
 
     frameRate(8);
 
-}
-
-function draw() {
+//}
+//
+//function draw() {
     var columns = 30;
     var rows = 30;
     var w = width / columns;
