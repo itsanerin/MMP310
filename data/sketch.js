@@ -25,6 +25,9 @@ function setup() {
         fill('orange');
         ellipse(x, y, per);
 
+        fill('black');
+        text(per, x, y);
+
         fill('white');
         let player = rookies.getString(i, 'Player').split('\\')[0];
         text(player, x, y + 100);
