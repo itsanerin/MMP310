@@ -12,15 +12,8 @@ var b = 30;
 
 function setup() {
     createCanvas(windowWidth, windowHeight - windowHeight / 6);
-    //    background(220);
     strokeWeight(2);
     frameRate(8);
-    //    colorMode(HSB, 100);
-
-
-    //    c = random(0, 360);
-    //    s = random(20, 50);
-    //    b = random(50, 100);
 
     pattern();
 
@@ -32,22 +25,16 @@ function setup() {
 
 
     // rows slider
-    var rowPrent = createDiv();
-
-    var rowLabel = createP("Number of Rows");
-    rowLabel.parent(rowParent);
-    //    createDiv.class("button");
+    createDiv("Number of Rows");
     var rowSlider = createSlider(5, 30, rows);
     rowSlider.input(setRow);
     rowSlider.class('button');
 
     //color
-    var colorParent = createDiv();
-    var colorLabel = createP("Color");
+    createDiv("Color");
     var colorSlider = createSlider(30, 255, b);
     colorSlider.input(setColor);
     colorSlider.class('button');
-    colorSlider.parent(colorParent);
 
 
 }
@@ -65,12 +52,8 @@ function setColor() {
 
 
 function pattern() {
-    //    var columns = 30;
-    //    var rows = 10;
     var w = width / columns;
     var h = height / rows;
-    //    var x = 100;
-    //    var y = 100;
 
 
     for (let x = -100; x <= width; x += w) {
@@ -80,7 +63,6 @@ function pattern() {
 
             r = random(100, 255);
             g = random(20, 80);
-            //            b = random(50, 100);
 
             if (random(1) > 0.5) {
                 triangle(x, y, x + 300, y, x + 150, y + 200);
