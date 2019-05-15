@@ -336,6 +336,7 @@ function bossFight() {
 
     }
 }
+
 function endGame() {
     //shadow
     textFont('VT323');
