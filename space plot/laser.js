@@ -2,16 +2,11 @@
 
 class Laser extends Entity {
 
-    constructor() {
+    constructor(speedY) {
         super(spaceship.x, spaceship.y);
-        this.speed.y = -15;
+        this.speed.y = speedY;
         this.width = 5;
         this.height = 25;
-        this.color = {
-            r: laserRed,
-            g: 0,
-            b: 200
-        }
     }
 
     display() {
@@ -26,7 +21,7 @@ class Laser extends Entity {
 
         //remove lasers above canvas
         if (this.y < -this.height) {
-            this.remove(lasers);
+            this.died = true;
         }
 
     }
