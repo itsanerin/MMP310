@@ -2,15 +2,16 @@
 
 class Laser extends Entity {
 
-    constructor() {
+    constructor(laserColor, speedY) {
         super(spaceship.x, spaceship.y);
-        this.speed.y = -15;
+        this.speed.y = speedY;
         this.width = 5;
         this.height = 25;
+        this.laserColor = laserColor;
     }
 
     display() {
-        fill('yellow');
+        fill(this.laserColor);
         noStroke();
         rectMode(CENTER);
         rect(this.x, this.y, this.width, this.height);

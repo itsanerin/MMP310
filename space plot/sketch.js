@@ -39,7 +39,7 @@ var astField = [];
 
 // score
 // one point for every asteroid destroyed
-var score = 0;
+var score = 180;
 
 var x = 100,
     y = 50,
@@ -49,18 +49,23 @@ var x = 100,
 var shipX = 500;
 var shipY = 100;
 var bossShipX = -300;
+var fieldX;
+
+var ship2X = 0;
+var ship2Y = 2;
+var bossShip2X = 1500;
 
 var story1 = " ";
 var story2 = " ";
-var chapter = 'bossFight';
-var plotChapter = "1";
+var chapter = 'game';
+var plotChapter = "4";
 var textColor = 'white';
 
 //probability asteroid spawns in each frame
 var asteroidProb = 99;
 
 var playerLives = 3;
-var bossLives = 20;
+var bossLives = 10;
 
 
 function setup() {
@@ -73,7 +78,7 @@ function setup() {
     boss = new Boss();
 
     //setup asteroid field
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 100; i++) {
         astField.push(new Jitter());
     }
 
@@ -86,8 +91,15 @@ function draw() {
 
     if (chapter == 'story') {
         story();
+
+    } else if (chapter == 'tutorial') {
+        tutorial();
+
     } else if (chapter == 'game') {
         game();
+
+    } else if (chapter == 'cutscene') {
+        cutscene();
 
     } else if (chapter == 'bossFight') {
         bossFight();
@@ -97,78 +109,19 @@ function draw() {
     }
 }
 
-function game() {
-    if (score == 200) chapter = 'bossFight';
-
-    // adds random asteroid
-    if (random(100) > asteroidProb) {
-
-        // create an asteroid
-        asteroids.push(new Asteroid());
-    }
-
-    spaceship.controls();
-    spaceship.display();
-    spaceship.update();
-
-    for (let i = 0; i < asteroids.length; i++) {
-        asteroids[i].display();
-        asteroids[i].update();
-
-
-        //detect all lasers
-        for (let j = 0; j < lasers.length; j++) {
-            if (asteroids[i].collide(lasers[j])) {
-                asteroids[i].died = true;
-                lasers[j].died = true;
-                asteroidProb -= 0.1;
-
-
-                // increment score
-                score += 1;
-            }
-        }
-
-        //collision with spaceship
-        if (asteroids[i].collide(spaceship)) {
-            image(shipExplode, spaceship.x, spaceship.y, width / 4, height / 3);
-            endGame();
-        }
-    }
-
-
-
-    for (let i = 0; i < lasers.length; i++) {
-        lasers[i].display();
-        lasers[i].update();
-
-        if (lasers[i].died) {
-            lasers[i].remove(lasers);
-        }
-    }
-
-    //clean up dead asteroids & lasers
-    for (let i = 0; i < asteroids.length; i++) {
-        if (asteroids[i].died) {
-            asteroids[i].remove(asteroids);
-        }
-    }
-
-
-    /* user display */
-
-    // score
-    fill('white');
-    textFont('VT323');
-    textSize(40);
-    text('Score: ' + score, width - 300, 50);
-
-}
-
 //add lasers
 function keyPressed() {
     if (keyCode === 32) {
-        lasers.push(new Laser());
+        lasers.push(new Laser('yellow', -15));
+    }
+
+    //progress from tutorial to game
+    if (keyCode === 13) {
+        console.log(chapter);
+        if (chapter == 'tutorial') {
+            chapter = 'game';
+            plotChapter = '4';
+        }
     }
 }
 
@@ -180,13 +133,37 @@ function mouseClicked() { //progression
             plotChapter = '2';
             shipX = 0;
         } else if (plotChapter == '2') plotChapter = '3';
-        else if (plotChapter == '3') chapter = 'game';
+        else if (plotChapter == '3') chapter = 'tutorial';
+        else if (plotChapter == '4') plotChapter = '5';
+        else if (plotChapter == '5') chapter = 'bossFight';
     }
 }
 
-function story() {
+function tutorial() {
+    fill('black');
+    rect(width / 4, height / 3 - 60, width / 2, height / 2 + 100);
+
+
+    textFont('VT323');
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    fill('white');
+    text("Oh no! You've narrowly evaded one danger by", width / 2, height / 3 - 20);
+    text("running straight into another! Can you survive?", width / 2, height / 3 + 20);
+    text("Tutorial:", width / 2, height / 3 + 110);
+    text("Use the left and right arrow keys to move the Trinity and", width / 2, height / 3 + 150);
+    text("help her dodge the oncoming asteroids.", width / 2, height / 3 + 190);
+    text("Press the spacebar to shoot Trinity's lasers and destroy", width / 2, height / 3 + 250);
+    text("the asteroids blocking your path.", width / 2, height / 3 + 290);
+    text("Press Enter to Play", width / 2, height / 3 + 360);
+}
+
+function cutscene() {
+
     fill('black');
     rect(0, height - 130, width, height - 100);
+
+    console.log(rect);
 
     //story
 
@@ -207,133 +184,49 @@ function story() {
     text('Next ▶', width - x + 15, height - y + 30);
 
     //chapters
-    if (plotChapter == '1') {
+    if (plotChapter == '4') {
+
         textColor = 'white';
-        story1 = "Once upon a time, in an alternate dimension where fearsome aliens roam the galaxy, the spacecraft Trinity"
-        story2 = "must evade her assailant.";
+        story1 = "You've managed to escape the asteroid field by the skin of your teeth!";
+        story2 = "Just when the coast looks clear, Trinity comes face-to-face with her nemesis.";
 
-        push();
-        translate(shipX, shipY);
-        shipX += 1;
-        shipY += 1;
-        rotate(radians(135));
-        image(shipSprite, 0, 0); //width - 200
-        pop();
-
-
-        push();
-        translate(shipX - 300, shipY - 300);
-        rotate(radians(325));
-        image(bossSprite, 0, 0);
-        pop();
-
-
-    } else if (plotChapter == '2') {
-        textColor = 'white';
-        story1 = "An asteroid field is up ahead! Maybe she can use it for cover."
-        story2 = "";
-        shipY = height / 2;
+        //draw asteroid field
+        for (let i = 0; i < astField.length; i++) {
+            astField[i].move();
+            astField[i].display();
+            astField[i].x = 20;
+        }
 
         //spaceship
         push();
-        translate(shipX, shipY);
-        shipX += 2;
+        translate(ship2X, height / ship2Y - 50);
+        if (ship2X < width / 2 - 80) {
+            ship2X += 3;
+        }
         rotate(radians(90));
         image(shipSprite, 0, 0); //width - 200
         pop();
 
         //boss Ship
         push();
-        translate(bossShipX, shipY);
-        if (bossShipX < width / 2 - 80) {
-            bossShipX += 2;
+        translate(bossShip2X, height / ship2Y - 50);
+        if (bossShip2X > width / 2 + 100) {
+            bossShip2X -= 3;
         }
-        rotate(radians(270));
+        rotate(radians(90));
         image(bossSprite, 0, 0);
         pop();
 
-
-        //draw asteroid field
-        for (let i = 0; i < astField.length; i++) {
-            astField[i].move();
-            astField[i].display();
-        }
-
-    } else if (plotChapter == '3') {
+    } else if (plotChapter == '5') {
         push();
         translate(width / 2, 300);
         scale(3.0);
         image(bossSprite, 0, 0);
         pop();
 
-
         textColor = 'orange';
-        story1 = "YOU CAN RUN... BUT YOU WILL NEVER ESCAPE!";
-        //        textColor = 'white';
-        //        story2 = "The asteroid field proves to be a menacing obstacle. Can the Trinity survive?"
+        story1 = "YOU CANNOT ESCAPE! FIGHT ME AND DIE!!!";
         story2 = "";
-    }
-}
-
-function bossFight() {
-
-    spaceship.display();
-    spaceship.update();
-    spaceship.controls();
-
-    boss.display();
-    boss.update();
-
-    /* user display */
-
-    // lives
-    fill('#ff3fda');
-    textFont('VT323');
-    textSize(40);
-    text('Lives: ' + playerLives, width - 200, height - 20);
-    fill('orange');
-    text('Boss lives: ' + bossLives, width - 300, 50);
-
-    for (let i = 0; i < bossLasers.length; i++) {
-        bossLasers[i].display();
-        bossLasers[i].update();
-
-        //collision with spaceship
-        if (bossLasers[i].collide(spaceship)) {
-            bossLasers[i].died = true;
-            playerLives -= 1;
-
-            if (playerLives == 0) {
-                endGame();
-                image(shipExplode, spaceship.x - width * 0.10, spaceship.y - height * 0.08, width / 4, height / 3);
-
-            }
-            if (bossLasers[i].died) {
-                bossLasers[i].remove(bossLasers);
-            }
-        }
-    }
-
-
-    for (let i = 0; i < lasers.length; i++) {
-        lasers[i].display();
-        lasers[i].update();
-
-        //collision with boss
-        if (lasers[i].collide(boss)) {
-            bossLives -= 1;
-            lasers[i].died = true;
-
-            if (bossLives == 0) {
-                winGame();
-                image(bossExplode, boss.x - width * 0.10, boss.y - height * 0.08, width / 4, height / 3);
-            }
-        }
-
-        if (lasers[i].died) {
-            lasers[i].remove(lasers);
-        }
-
     }
 }
 
@@ -348,7 +241,7 @@ function endGame() {
 
     //main text
     textSize(155);
-    fill('red');
+    fill('orange');
     text("CRITICAL FAILURE", width / 2, height / 2);
     noLoop();
 }

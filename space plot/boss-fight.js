@@ -28,8 +28,9 @@ function bossFight() {
 
             if (playerLives == 0) {
                 endGame();
-                image(shipExplode, spaceship.x - width * 0.10, spaceship.y - height * 0.08, width / 4, height / 3);
+                image(shipExplode, spaceship.x, spaceship.y);
 
+                //clean up boss lasers
             }
             if (bossLasers[i].died) {
                 bossLasers[i].remove(bossLasers);
@@ -49,10 +50,11 @@ function bossFight() {
 
             if (bossLives == 0) {
                 winGame();
-                image(bossExplode, boss.x - width * 0.10, boss.y - height * 0.08, width / 4, height / 3);
+                image(bossExplode, boss.x, boss.y, 500);
             }
         }
 
+        //clean up lasers
         if (lasers[i].died) {
             lasers[i].remove(lasers);
         }

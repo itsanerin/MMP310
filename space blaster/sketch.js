@@ -22,6 +22,10 @@ var spaceship;
 var astImgs = [];
 var asteroids = [];
 var lasers = [];
+var powerups = [];
+
+//probability asteroid spawns in each frame
+var asteroidProb = 99;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -36,8 +40,13 @@ function draw() {
     background(51);
     image(backgroundImg, width / 2, height / 2, width, height);
 
+    //add random power up
+    if (random(1000) > 999) {
+        powerups.push(new Powerup());
+    }
+
     // adds random asteroid
-    if (random(100) > 90) {
+    if (random(100) > asteroidProb) {
 
         // create an asteroid
         asteroids.push(new Asteroid());
@@ -51,13 +60,23 @@ function draw() {
         asteroids[i].display();
         asteroids[i].update();
 
+        for (let i = 0; i < powerups.length; i++) {
+            if (powerups[i].collide(spaceship)) {
+
+            }
+            powerups[i].display();
+            powerups[i].update();
+        }
+
+
         //detect all lasers
-                for (let j = 0; j < lasers.length; j++) {
-                    if (asteroids[i].collide(lasers[j])) {
-                        asteroids[i].died = true;
-                        lasers[j].died = true;
-                    }
-                }
+        for (let j = 0; j < lasers.length; j++) {
+            if (asteroids[i].collide(lasers[j])) {
+                asteroids[i].died = true;
+                lasers[j].died = true;
+                asteroidProb -= 0.1;
+            }
+        }
 
         //collision with spaceship
         if (asteroids[i].collide(spaceship)) {
@@ -80,24 +99,24 @@ function draw() {
     }
 
 
-    
-        for (let i = 0; i < lasers.length; i++) {
-            lasers[i].display();
-            lasers[i].update();
+
+    for (let i = 0; i < lasers.length; i++) {
+        lasers[i].display();
+        lasers[i].update();
+    }
+
+    //clean up dead asteroids & lasers
+    for (let i = 0; i < asteroids.length; i++) {
+        if (asteroids[i].died) {
+            asteroids[i].remove(asteroids);
         }
-    
-        //clean up dead asteroids & lasers
-        for (let i = 0; i < asteroids.length; i++) {
-            if (asteroids[i].died) {
-                asteroids[i].remove(asteroids);
-            }
+    }
+
+    for (let i = 0; i < lasers.length; i++) {
+        if (lasers[i].died) {
+            lasers[i].remove(lasers);
         }
-    
-        for (let i = 0; i < lasers.length; i++) {
-            if (lasers[i].died) {
-                lasers[i].remove(lasers);
-            }
-        }
+    }
 
 }
 

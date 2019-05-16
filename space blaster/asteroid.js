@@ -15,13 +15,21 @@ class Asteroid extends Entity {
     }
 
     display() {
-        //        fill(0);
-        //        noStroke();
         image(this.image, this.x, this.y, this.size, this.size);
     }
 
     update() {
-        this.x += this.speed.x;
-        this.y += this.speed.y;
+        super.update();
+
+        //remove asteroids below the screen
+        if (this.y > height + this.size) {
+            this.remove(asteroids);
+        }
+
+        //bounce asteroids off the sides of the screene
+        if (this.x <= 0 || this.x >= width) {
+            this.speed.x *= -1;
+        }
+
     }
 }

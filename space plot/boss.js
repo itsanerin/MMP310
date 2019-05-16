@@ -29,7 +29,4 @@ class Boss extends Entity {
 
         this.count++;
     }
-
-
-
 }
