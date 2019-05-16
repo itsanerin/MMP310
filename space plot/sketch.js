@@ -39,7 +39,7 @@ var astField = [];
 
 // score
 // one point for every asteroid destroyed
-var score = 180;
+var score = 0;
 
 var x = 100,
     y = 50,
@@ -57,8 +57,8 @@ var bossShip2X = 1500;
 
 var story1 = " ";
 var story2 = " ";
-var chapter = 'game';
-var plotChapter = "4";
+var chapter = 'story';
+var plotChapter = "1";
 var textColor = 'white';
 
 //probability asteroid spawns in each frame
