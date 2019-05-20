@@ -161,6 +161,7 @@ function tutorial() {
 function cutscene() {
 
     rectMode(CORNER);
+    textAlign(LEFT);
 
     fill('black');
     rect(0, height - 130, width, height - 100);
