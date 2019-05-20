@@ -1,5 +1,5 @@
 function game() {
-    if (score == 200) chapter = 'cutscene', plotChapter = '4';
+    if (score == 50) chapter = 'cutscene', plotChapter = '4';
 
     // adds random asteroid
     if (random(100) > asteroidProb) {

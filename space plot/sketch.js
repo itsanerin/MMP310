@@ -160,10 +160,10 @@ function tutorial() {
 
 function cutscene() {
 
+    rectMode(CORNER);
+
     fill('black');
     rect(0, height - 130, width, height - 100);
-
-    console.log(rect);
 
     //story
 
